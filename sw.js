@@ -1,5 +1,5 @@
 /* My Garage Companion: cache only the app shell, never user data or VIN lookups. */
-const CACHE='my-garage-companion-shell-v8';
+const CACHE='my-garage-companion-shell-v9';
 const SHELL=['./','./index.html','./workshop.html','./manifest.webmanifest','./app-icon.svg','./garage-storage.js','./cloud-config.js','./cloud-sync.js'];
 self.addEventListener('install',event=>{event.waitUntil(caches.open(CACHE).then(cache=>cache.addAll(SHELL)).then(()=>self.skipWaiting()))});
 self.addEventListener('activate',event=>{event.waitUntil(caches.keys().then(keys=>Promise.all(keys.filter(k=>k.startsWith('my-garage-companion-shell-')&&k!==CACHE).map(k=>caches.delete(k)))).then(()=>self.clients.claim()))});
