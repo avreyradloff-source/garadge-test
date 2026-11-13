@@ -69,9 +69,14 @@ function setupTrimSelector(selected=''){
  const exact=TRIMS_BY_VEHICLE[key];
  const normalizeVehicleName=s=>String(s||'').toLowerCase().replace(/&/g,'and').replace(/[^a-z0-9]/g,'');
  const catalog=Object.entries(MODEL_TRIMS).find(([brand])=>normalizeVehicleName(brand)===normalizeVehicleName(make))?.[1]||{};
- const matchedModel=Object.keys(catalog).find(name=>normalizeVehicleName(name)===normalizeVehicleName(model));
- const choices=exact||catalog[matchedModel]||[];
- fillOptions(el,choices,selected,exact?'Select trim (year-specific suggestions; verify)':choices.length?'Possible trims (not year-verified; verify)':'Trim not listed — choose Other to enter');
+ const normalizedModel=normalizeVehicleName(model);
+ const modelNames=Object.keys(catalog);
+ const matchedModel=modelNames.find(name=>normalizeVehicleName(name)===normalizedModel)
+  ||modelNames.find(name=>normalizedModel.length>=4&&(normalizedModel.startsWith(normalizeVehicleName(name))||normalizeVehicleName(name).startsWith(normalizedModel)));
+ // Offer familiar generic trim labels if a specific model is absent. These are NOT verified factory trims.
+ const generalTrims=['Base','Standard','S','SE','SEL','SL','SV','SR','SR5','LE','LX','EX','LT','LTZ','LS','SLT','SLE','XL','XLT','Limited','Sport','Touring','Premium','Platinum','Other'];
+ const choices=exact||catalog[matchedModel]||generalTrims;
+ fillOptions(el,choices,selected,exact?'Select trim (year-specific suggestions; verify)':choices.length?'Possible trims (not year-verified; verify)' :'Common trim labels (not vehicle-verified)');
  el.onchange=()=>{if(el.value==='__other__')manualEntry(el,'trim from vehicle badge or documents')};
 }
 const ENGINE_OPTIONS=['2.0L I4','2.3L I4','2.5L I4','3.0L V6','3.5L V6','3.5L V6 EcoBoost','3.6L V6','4.0L V6','4.6L V8 (2-valve)','4.6L V8 (3-valve)','5.0L V8','5.3L V8','5.4L V8','5.7L V8','6.2L V8','6.7L Diesel','Electric','Hybrid','Other / unknown'];
