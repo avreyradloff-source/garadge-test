@@ -838,7 +838,7 @@ function minimumFuelMileage(vid){const vehicle=db.vehicles.find(v=>v.id===vid);r
 function mileageWarning(input,minimum){if(!input)return true;const entered=input.value.trim()===''?null:Number(input.value);const invalid=entered!==null&&(!Number.isFinite(entered)||entered<minimum);input.setCustomValidity(invalid?'Mileage cannot be below the current saved mileage ('+num(minimum)+' miles).':'');input.style.borderColor=invalid?'#ff6b6b':'';let note=input.parentElement.querySelector('.mileage-warning');if(invalid){if(!note){note=document.createElement('small');note.className='mileage-warning';note.style.color='#ff9a9a';input.insertAdjacentElement('afterend',note)}note.textContent='⚠ Mileage must be at least '+num(minimum)+' miles.'}else note?.remove();return !invalid}
 document.addEventListener('input',e=>{if(e.target.id==='fuelOdo')mileageWarning(e.target,minimumFuelMileage($('fuelVehicle')?.value));if(['f_mileage','f_lastMileage'].includes(e.target.id)){const type=$('form')?.dataset.type;const vid=type==='vehicles'?$('form')?.dataset.id:$('f_vehicleId')?.value;const record=db.vehicles.find(v=>v.id===vid);if(record)mileageWarning(e.target,Number(record.mileage)||0)}});
 document.addEventListener('change',e=>{if(e.target.id==='fuelVehicle')mileageWarning($('fuelOdo'),minimumFuelMileage(e.target.value));if(e.target.id==='f_vehicleId'){const record=db.vehicles.find(v=>v.id===e.target.value);for(const id of ['f_mileage','f_lastMileage'])if($(id))mileageWarning($(id),Number(record?.mileage)||0)}});
-const GARAGE_APP_VERSION=78;
+const GARAGE_APP_VERSION=79;
 let garageUpdateChecking=false;
 async function checkGarageUpdateOnOpen(){
  if(garageUpdateChecking||!navigator.onLine)return;
