@@ -1,0 +1,23 @@
+{
+  "id": "./",
+  "name": "My Garage Companion",
+  "short_name": "My Garage",
+  "description": "Keep vehicle details, service history, reminders and expenses together.",
+  "start_url": "./",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0c111b",
+  "theme_color": "#0c111b",
+  "categories": [
+    "auto",
+    "productivity"
+  ],
+  "icons": [
+    {
+      "src": "./app-icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ]
+}
