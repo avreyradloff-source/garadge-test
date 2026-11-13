@@ -842,7 +842,7 @@ async function checkGarageUpdateOnOpen(){
   const response=await fetch('./index.html?version_check='+Date.now(),{cache:'no-store'});
   if(!response.ok)return;
   const html=await response.text();
-  const found=html.match(/My Garage Companion · Version (\\d+)/);
+  const found=html.match(/My Garage Companion · Version (\d+)/);
   if(!found||Number(found[1])<=GARAGE_APP_VERSION)return;
   const target=found[1],key='garage-auto-update-target';
   if(sessionStorage.getItem(key)===target)return;
